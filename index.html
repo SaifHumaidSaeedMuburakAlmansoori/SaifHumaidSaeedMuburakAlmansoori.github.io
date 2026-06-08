@@ -3,116 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NexusOS | Next-Gen Unified Workspace</title>
+    <title>NoteX // Minimalist Hyper-Notepad</title>
+    <!-- Stylesheets & Fonts Dependencies -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+    <!-- NoteX Command Palette Search Engine -->
     <div id="command-palette" class="modal-overlay">
         <div class="palette-box">
             <div class="palette-search-wrapper">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="palette-search-input" placeholder="Search titles and content, or type command... (Esc to exit)">
+                <i class="fa-solid fa-terminal"></i>
+                <input type="text" id="palette-search-input" placeholder="Query titles or content records... (Esc to exit)">
             </div>
             <div id="palette-results" class="palette-results-list"></div>
         </div>
     </div>
 
+    <!-- Main System Window -->
     <div class="app-container">
         
+        <!-- Sidebar Utility Desk -->
         <aside class="sidebar">
             <div class="sidebar-upper">
                 <div class="brand-header">
-                    <i class="fa-solid fa-circle-nodes"></i>
-                    <span>NexusOS Workspace</span>
+                    <i class="fa-solid fa-pen-nib"></i>
+                    <span>NoteX // OS</span>
                 </div>
 
                 <div class="nav-section">
-                    <div class="section-tag">Navigation</div>
+                    <div class="section-tag">Workspace Modes</div>
                     <div class="nav-button active" data-target="workspace" onclick="changeView('workspace')">
-                        <i class="fa-solid fa-laptop-code"></i> Production Studio
+                        <i class="fa-solid fa-file-signature"></i> Writing Desk
                     </div>
                     <div class="nav-button" data-target="settings" onclick="changeView('settings')">
-                        <i class="fa-solid fa-sliders"></i> Control Console
+                        <i class="fa-solid fa-sliders"></i> Desk Config
                     </div>
                 </div>
 
                 <div class="nav-section">
                     <div class="section-tag" style="display: flex; justify-content: space-between; align-items: center;">
-                        <span>Documents Engine</span>
-                        <button class="add-doc-icon-btn" onclick="createNewDocument()" title="Create Blank Note"><i class="fa-solid fa-plus"></i></button>
+                        <span>Scratch Sheets</span>
+                        <button class="add-doc-icon-btn" onclick="createNewDocument()" title="New Scratch Sheet"><i class="fa-solid fa-plus"></i></button>
                     </div>
                     <div id="sidebar-documents-tree" class="docs-tree-container">
-                        </div>
+                        <!-- Handled Dynamically by app.js -->
+                    </div>
                 </div>
             </div>
 
             <div class="sidebar-lower">
                 <div class="metrics-pill">
-                    <i class="fa-solid fa-chart-pie"></i>
+                    <i class="fa-solid fa-calculator"></i>
                     <span id="global-word-counter">Words: 0</span>
                 </div>
                 <button class="action-btn download-btn" onclick="exportMasterNotebook()">
-                    <i class="fa-solid fa-file-export"></i> Export Vault Bundle (.json)
+                    <i class="fa-solid fa-download"></i> Save Backup (.json)
                 </button>
             </div>
         </aside>
 
+        <!-- Main Window Viewport -->
         <main class="main-viewport">
             
+            <!-- VIEW 1: NOTE AREA (NOTEPAD WRITING CANVAS) -->
             <div id="view-workspace" class="view-panel active">
                 
+                <!-- Dynamic Header Cover Binder Style -->
                 <div class="cover-canvas" id="canvas-cover-banner">
                     <div class="cover-overlay-controls">
                         <button class="cov-ctl-btn" onclick="document.getElementById('hidden-cover-uploader').click()">
-                            <i class="fa-solid fa-camera"></i> Change Graphic
+                            <i class="fa-solid fa-paperclip"></i> Bind Cover Image
                         </button>
                         <button class="cov-ctl-btn text-danger" onclick="clearActiveBannerCover()">
-                            <i class="fa-solid fa-trash-can"></i> Flush Cover
+                            <i class="fa-solid fa-eraser"></i> Clear Cover
                         </button>
                         <input type="file" id="hidden-cover-uploader" accept="image/*">
                     </div>
                 </div>
 
+                <!-- Notepad Visual Workspace Paper Surface -->
                 <div class="canvas-workspace">
-                    <input type="text" id="document-title-field" class="title-input-field" placeholder="Untitled Document Record">
+                    <input type="text" id="document-title-field" class="title-input-field" placeholder="Untitled Scratch Sheet">
                     
                     <div class="document-metadata-bar">
-                        <span><i class="fa-regular fa-calendar"></i> <span id="meta-date-stamp">-</span></span>
-                        <span>|</span>
+                        <span><i class="fa-regular fa-clock"></i> <span id="meta-date-stamp">-</span></span>
+                        <span>//</span>
                         <span class="interactive-meta-action" onclick="document.getElementById('hidden-inline-media-picker').click()">
-                            <i class="fa-solid fa-paperclip"></i> Inject Inline Media Block
+                            <i class="fa-solid fa-photo-film"></i> Clip Graphic/Audio
                         </span>
                         <input type="file" id="hidden-inline-media-picker" accept="image/*,audio/*">
                     </div>
 
+                    <!-- Split Notepad Work Grid Layout -->
                     <div class="studio-grid">
                         
+                        <!-- Left Block: Rule Lined Text Paper Canvas -->
                         <div class="editor-sandbox-wrapper">
-                            <div id="rich-editor-canvas" class="editable-rich-canvas" contenteditable="true" placeholder="Type '/' to open slash command module menu, or '[[ ' to bind structural document links..."></div>
+                            <div id="rich-editor-canvas" class="editable-rich-canvas" contenteditable="true" placeholder="Type '/' for instant styling options, or '[[ ' to interconnect separate sheets together..."></div>
                             
+                            <!-- Dropdown Modals UI Components -->
                             <div id="slash-command-menu" class="floating-popup-menu"></div>
                             <div id="wiki-bi-link-menu" class="floating-popup-menu"></div>
                         </div>
 
+                        <!-- Right Block: Compact Sticky To-Do Card Board -->
                         <div class="kanban-dashboard-wrapper">
                             <div class="kanban-header">
-                                <h3><i class="fa-solid fa-cubes-stacked"></i> Task Matrix Board</h3>
-                                <button class="add-task-btn" onclick="addNewKanbanCardPrompt()"><i class="fa-solid fa-plus"></i> Card</button>
+                                <h3><i class="fa-solid fa-thumbtack"></i> Sticky Margin Notes</h3>
+                                <button class="add-task-btn" onclick="addNewKanbanCardPrompt()"><i class="fa-solid fa-square-plus"></i> Pin Action</button>
                             </div>
 
                             <div class="kanban-board-scrollbox">
+                                <!-- Col 1: Todo Tasks List -->
                                 <div class="kanban-column" data-status="todo" ondragover="allowCardDrop(event)" ondrop="executeCardDrop(event, 'todo')">
-                                    <div class="col-title-bar"><span class="indicator todo-ind"></span> Planned</div>
+                                    <div class="col-title-bar"><span class="indicator todo-ind"></span> Stacked</div>
                                     <div class="cards-bin" id="bin-todo"></div>
                                 </div>
+                                <!-- Col 2: Doing Tasks List -->
                                 <div class="kanban-column" data-status="progress" ondragover="allowCardDrop(event)" ondrop="executeCardDrop(event, 'progress')">
-                                    <div class="col-title-bar"><span class="indicator prog-ind"></span> Processing</div>
+                                    <div class="col-title-bar"><span class="indicator prog-ind"></span> In Ink</div>
                                     <div class="cards-bin" id="bin-progress"></div>
                                 </div>
+                                <!-- Col 3: Done Tasks List -->
                                 <div class="kanban-column" data-status="done" ondragover="allowCardDrop(event)" ondrop="executeCardDrop(event, 'done')">
-                                    <div class="col-title-bar"><span class="indicator done-ind"></span> Verified</div>
+                                    <div class="col-title-bar"><span class="indicator done-ind"></span> Scratched</div>
                                     <div class="cards-bin" id="bin-done"></div>
                                 </div>
                             </div>
@@ -122,52 +138,54 @@
                 </div>
             </div>
 
+            <!-- VIEW 2: DESK CONFIGURATION (SETTINGS) -->
             <div id="view-settings" class="view-panel">
                 <div class="settings-container-box">
-                    <h2>Global Environment Control System</h2>
-                    <p class="muted-text">Configure dynamic execution contexts, variables, security access parameters, and aesthetic layer schemes.</p>
+                    <h2>Desk Settings Console</h2>
+                    <p class="muted-text">Tweak your NoteX configuration environment parameters, custom themes, and storage drives.</p>
                     
                     <hr class="view-divider">
 
-                    <h3>System Theme Presets Matrix</h3>
+                    <h3>Select Paper Aesthetic Style</h3>
                     <div class="theme-selection-grid">
                         <div class="theme-option-card active" id="thm-card-dark" onclick="switchSystemThemeMode('dark')">
-                            <h4>Catppuccin Midnight</h4>
-                            <p>Low-light high productivity blueprint.</p>
+                            <h4>NoteX Dark</h4>
+                            <p>High-contrast, sleek carbon layout terminal.</p>
                         </div>
                         <div class="theme-option-card" id="thm-card-light" onclick="switchSystemThemeMode('light')">
-                            <h4>Pro Cupertino Light</h4>
-                            <p>High-luminance crisp desktop architecture.</p>
+                            <h4>Legal Yellow Pad</h4>
+                            <p>Classic physical analog writing board tone.</p>
                         </div>
                         <div class="theme-option-card" id="thm-card-matrix" onclick="switchSystemThemeMode('matrix')">
-                            <h4>Neon Terminal Cyber</h4>
-                            <p>High-contrast digital matrix layout.</p>
+                            <h4>Terminal Grid</h4>
+                            <p>Retro monospaced software machine array.</p>
                         </div>
                     </div>
 
+                    <!-- Custom Real-time Hex Parameter Generator -->
                     <div class="custom-theme-forge-panel">
-                        <h3><i class="fa-solid fa-wand-magic-sparkles"></i> Custom Vector Real-time Theme Forge</h3>
-                        <p class="muted-text">Inject arbitrary hex vectors inside runtime global styling references variables.</p>
+                        <h3><i class="fa-solid fa-sliders"></i> Mix Custom Desk Palette</h3>
+                        <p class="muted-text">Manually adjust background and accent lines hex variables instantly.</p>
                         
                         <div class="color-forge-grid">
-                            <div class="forge-item"><span>Canvas Base Background</span><input type="color" id="f-bg-main" value="#1e1e2e" onchange="runLiveForgeCompilation()"></div>
-                            <div class="forge-item"><span>Control Sidebar Base</span><input type="color" id="f-bg-side" value="#11111b" onchange="runLiveForgeCompilation()"></div>
-                            <div class="forge-item"><span>Card Structural Surfaces</span><input type="color" id="f-bg-card" value="#252538" onchange="runLiveForgeCompilation()"></div>
-                            <div class="forge-item"><span>Core Text Value Color</span><input type="color" id="f-text" value="#cdd6f4" onchange="runLiveForgeCompilation()"></div>
-                            <div class="forge-item"><span>Dynamic Accent Element</span><input type="color" id="f-accent" value="#cba6f7" onchange="runLiveForgeCompilation()"></div>
-                            <div class="forge-item"><span>Hardware Grid Border Line</span><input type="color" id="f-border" value="#313244" onchange="runLiveForgeCompilation()"></div>
+                            <div class="forge-item"><span>Paper Background</span><input type="color" id="f-bg-main" value="#1a1a1a" onchange="runLiveForgeCompilation()"></div>
+                            <div class="forge-item"><span>Sidebar Background</span><input type="color" id="f-bg-side" value="#111111" onchange="runLiveForgeCompilation()"></div>
+                            <div class="forge-item"><span>Sticky Notes Card Fill</span><input type="color" id="f-bg-card" value="#222222" onchange="runLiveForgeCompilation()"></div>
+                            <div class="forge-item"><span>Ink Text Tone</span><input type="color" id="f-text" value="#e5e5e5" onchange="runLiveForgeCompilation()"></div>
+                            <div class="forge-item"><span>Primary Margin Highlight</span><input type="color" id="f-accent" value="#ffd43b" onchange="runLiveForgeCompilation()"></div>
+                            <div class="forge-item"><span>Grid/Ruler Rule Lines</span><input type="color" id="f-border" value="#2e2e2e" onchange="runLiveForgeCompilation()"></div>
                         </div>
-                        <button class="action-btn download-btn" style="width: auto; margin-top: 20px;" onclick="commitForgeThemeToMemory()">Save Custom Custom Theme Profile</button>
+                        <button class="action-btn download-btn" style="width: auto; margin-top: 20px;" onclick="commitForgeThemeToMemory()">Save Palette Preset</button>
                     </div>
 
                     <div class="danger-zone-container">
-                        <h3>Critical Memory Adjustments</h3>
+                        <h3>Dangerous Actions</h3>
                         <div class="danger-row">
                             <div>
-                                <div class="danger-title">Purge Entire Local Host Directory Caches</div>
-                                <div class="muted-text">Permanently deletes all notes, tasks, system configurations, and themes from browser localStorage. This action is irreversible.</div>
+                                <div class="danger-title">Purge Entire NoteX Memory Profile</div>
+                                <div class="muted-text">Permanently shreds all files and logs inside this localized web application cache workspace profile. This is completely irreversible.</div>
                             </div>
-                            <button class="action-btn danger-btn" onclick="wipeLocalSystemMemoryCache()">Nuke Cache</button>
+                            <button class="action-btn danger-btn" onclick="wipeLocalSystemMemoryCache()">Burn Notebook</button>
                         </div>
                     </div>
                 </div>
@@ -176,6 +194,7 @@
         </main>
     </div>
 
+    <!-- Application Logic Script File -->
     <script src="app.js"></script>
 </body>
 </html>
