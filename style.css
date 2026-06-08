@@ -1,49 +1,49 @@
-/* Systems Parameters Variable Matrices Configuration Definitions */
+/* NoteX Custom Digital Notebook Aesthetic Setup Definitions */
 :root {
-    --bg-main: #1e1e2e;
-    --bg-sidebar: #11111b;
-    --bg-card: #252538;
-    --text-main: #cdd6f4;
-    --text-muted: #7f849c;
-    --accent: #cba6f7;
-    --border: #313244;
-    --danger: #f38ba8;
-    --success: #a6e3a1;
-    --shadow-rgb: 0, 0, 0;
+    --bg-main: #1a1a1a;
+    --bg-sidebar: #111111;
+    --bg-card: #222222;
+    --text-main: #e5e5e5;
+    --text-muted: #888888;
+    --accent: #ffd43b; /* NoteX Iconic Ink Warning Alert Color Tone */
+    --border: #2e2e2e;
+    --danger: #ff5f56;
+    --success: #27c93f;
+    --paper-line: rgba(255, 255, 255, 0.03);
 }
 
 [data-theme="light"] {
-    --bg-main: #f5f5f7;
-    --bg-sidebar: #e4e4e7;
+    --bg-main: #fcf9ec; /* Analog Legal Notepad Textured Hue */
+    --bg-sidebar: #f0ebd4;
     --bg-card: #ffffff;
-    --text-main: #1c1c1e;
-    --text-muted: #71717a;
-    --accent: #007aff;
-    --border: #d4d4d8;
+    --text-main: #2b2b28;
+    --text-muted: #7c7c75;
+    --accent: #ff453a;
+    --border: #e6dfbd;
     --danger: #ff3b30;
     --success: #34c759;
-    --shadow-rgb: 142, 142, 147;
+    --paper-line: rgba(0, 122, 255, 0.08); /* Classic Blueprint Light Rule Margin Style Lines */
 }
 
 [data-theme="matrix"] {
-    --bg-main: #020202;
-    --bg-sidebar: #000000;
-    --bg-card: #051405;
-    --text-main: #33ff33;
-    --text-muted: #118811;
-    --accent: #00ff00;
-    --border: #005500;
-    --danger: #ff0033;
-    --success: #00ff00;
-    --shadow-rgb: 0, 255, 0;
+    --bg-main: #000000;
+    --bg-sidebar: #050505;
+    --bg-card: #081208;
+    --text-main: #00ff66;
+    --text-muted: #006622;
+    --accent: #00ff66;
+    --border: #003311;
+    --danger: #ff0055;
+    --success: #00ff66;
+    --paper-line: rgba(0, 255, 100, 0.04);
 }
 
-/* Base Level Universal Resets Layout Rules */
+/* Base Notepad Foundations Reset */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: "Courier New", Courier, monospace, ui-monospace, SFMono-Regular, Menlo;
 }
 
 body {
@@ -52,7 +52,7 @@ body {
     height: 100vh;
     width: 100vw;
     overflow: hidden;
-    transition: background 0.25s ease, color 0.25s ease;
+    transition: background 0.2s ease, color 0.2s ease;
 }
 
 .app-container {
@@ -61,11 +61,11 @@ body {
     height: 100%;
 }
 
-/* Sidebar Styling Blocks */
+/* Sidebar Structural Column Layout */
 .sidebar {
-    width: 280px;
+    width: 270px;
     background-color: var(--bg-sidebar);
-    border-right: 1px solid var(--border);
+    border-right: 2px solid var(--border);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -74,8 +74,8 @@ body {
 }
 
 .brand-header {
-    font-size: 1.15rem;
-    font-weight: 700;
+    font-size: 1.25rem;
+    font-weight: 900;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -89,37 +89,29 @@ body {
 }
 
 .section-tag {
-    font-size: 0.72rem;
-    text-transform: uppercase;
+    font-size: 0.75rem;
     font-weight: 700;
-    letter-spacing: 1.2px;
+    letter-spacing: 0.5px;
     color: var(--text-muted);
     margin-bottom: 12px;
-    padding-left: 8px;
+    padding-left: 4px;
 }
 
 .nav-button {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     padding: 10px 12px;
-    border-radius: 8px;
+    border-radius: 4px;
     color: var(--text-main);
     cursor: pointer;
-    font-size: 0.92rem;
-    font-weight: 500;
-    margin-bottom: 6px;
-    transition: background 0.2s, color 0.2s;
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+    border: 1px solid transparent;
 }
-
-.nav-button i {
-    margin-right: 10px;
-    width: 16px;
-    text-align: center;
-}
-
+.nav-button i { margin-right: 12px; width: 14px; text-align: center; }
 .nav-button:hover, .nav-button.active {
     background-color: var(--bg-card);
+    border-color: var(--border);
     color: var(--accent);
 }
 
@@ -128,7 +120,6 @@ body {
     border: none;
     color: var(--text-muted);
     cursor: pointer;
-    font-size: 0.9rem;
 }
 .add-doc-icon-btn:hover { color: var(--accent); }
 
@@ -141,14 +132,14 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 8px 10px;
-    border-radius: 6px;
-    font-size: 0.88rem;
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 0.85rem;
     cursor: pointer;
-    margin-bottom: 4px;
+    margin-bottom: 2px;
 }
-.doc-tree-item:hover, .doc-tree-item.active { background: var(--bg-card); }
-.doc-tree-item .del-btn { opacity: 0; background: none; border: none; color: var(--text-muted); cursor: pointer;}
+.doc-tree-item:hover, .doc-tree-item.active { background: var(--bg-card); color: var(--accent); }
+.doc-tree-item .del-btn { opacity: 0; background: none; border: none; color: var(--text-muted); cursor: pointer; }
 .doc-tree-item:hover .del-btn { opacity: 1; }
 .doc-tree-item .del-btn:hover { color: var(--danger); }
 
@@ -156,7 +147,7 @@ body {
     background: var(--bg-card);
     border: 1px solid var(--border);
     padding: 8px 12px;
-    border-radius: 6px;
+    border-radius: 4px;
     font-size: 0.8rem;
     color: var(--text-muted);
     margin-bottom: 12px;
@@ -167,24 +158,23 @@ body {
 
 .action-btn {
     width: 100%;
-    background: var(--accent);
-    color: var(--bg-sidebar);
-    border: none;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text-main);
     padding: 11px;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 0.9rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    transition: opacity 0.2s;
 }
-.action-btn:hover { opacity: 0.9; }
-.danger-btn { background: var(--danger); color: var(--bg-main); }
+.action-btn:hover { border-color: var(--accent); color: var(--accent); }
+.danger-btn { border-color: var(--danger); color: var(--danger); background: transparent; }
+.danger-btn:hover { background: var(--danger); color: white; }
 
-/* Main Window Viewport Architecture Layout */
+/* Notepad Main Workspace Display Area Layout Frame */
 .main-viewport {
     flex: 1;
     height: 100%;
@@ -192,18 +182,15 @@ body {
     position: relative;
 }
 
-.view-panel {
-    display: none;
-    width: 100%;
-    height: 100%;
-}
+.view-panel { display: none; width: 100%; height: 100%; }
 .view-panel.active { display: block; }
 
-/* Banner Cover Mechanics */
+/* Binder Clip Top Cover Header */
 .cover-canvas {
-    height: 240px;
+    height: 180px;
     width: 100%;
-    background: linear-gradient(135deg, #4c49ed 0%, #0c0a21 100%);
+    background: #252525;
+    border-bottom: 4px solid var(--border);
     background-size: cover;
     background-position: center;
     position: relative;
@@ -211,43 +198,40 @@ body {
 
 .cover-overlay-controls {
     position: absolute;
-    bottom: 16px;
-    right: 24px;
+    bottom: 12px;
+    right: 20px;
     display: flex;
     gap: 8px;
 }
 
 .cov-ctl-btn {
-    background: rgba(0, 0, 0, 0.65);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #ffffff;
-    padding: 6px 14px;
-    border-radius: 6px;
-    font-size: 0.8rem;
+    background: var(--bg-main);
+    border: 1px solid var(--border);
+    color: var(--text-main);
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 0.75rem;
     cursor: pointer;
-    font-weight: 500;
 }
-.cov-ctl-btn:hover { background: rgba(0, 0, 0, 0.85); }
-.text-danger { color: #f38ba8 !important; }
+.cov-ctl-btn:hover { border-color: var(--accent); color: var(--accent); }
 
-/* Studio Studio Canvas Workspace */
+/* The Ruled Notepad Lining Substrate Surface Structure */
 .canvas-workspace {
-    padding: 40px 48px;
-    max-width: 1400px;
+    padding: 40px;
+    max-width: 1300px;
     margin: 0 auto;
 }
 
 .title-input-field {
     width: 100%;
-    font-size: 2.5rem;
-    font-weight: 800;
+    font-size: 2.2rem;
+    font-weight: bold;
     background: transparent;
     border: none;
     outline: none;
     color: var(--text-main);
-    margin-bottom: 12px;
-    letter-spacing: -1px;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
 }
 
 .document-metadata-bar {
@@ -255,34 +239,36 @@ body {
     gap: 16px;
     font-size: 0.85rem;
     color: var(--text-muted);
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--border);
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--border);
     margin-bottom: 32px;
 }
-
-.interactive-meta-action { cursor: pointer; transition: color 0.2s;}
+.interactive-meta-action { cursor: pointer; }
 .interactive-meta-action:hover { color: var(--accent); }
 
-/* Double Panel Studio Grid Split System */
+/* Split Workdesk Grid Framework columns */
 .studio-grid {
     display: grid;
-    grid-template-columns: 1.6fr 1fr;
+    grid-template-columns: 1.7fr 1fr;
     gap: 40px;
     align-items: start;
 }
 
-/* Core Rich Writing Container Engine */
+/* Lined Paper Canvas Content Editor Engine */
 .editor-sandbox-wrapper {
     position: relative;
     width: 100%;
+    background-image: linear-gradient(var(--paper-line) 1px, transparent 1px);
+    background-size: 100% 28px; /* Perfectly aligned legal horizontal notepad lines height mapping grid */
 }
 
 .editable-rich-canvas {
     min-height: 500px;
     outline: none;
-    font-size: 1.08rem;
-    line-height: 1.65;
+    font-size: 1rem;
+    line-height: 28px; /* Binds text accurately down matching line grid coordinates */
     color: var(--text-main);
+    padding-top: 4px;
 }
 .editable-rich-canvas[placeholder]:empty:before {
     content: attr(placeholder);
@@ -290,223 +276,127 @@ body {
     pointer-events: none;
 }
 
-/* Custom Markdown & Media Generated Items Elements style bindings */
-.editable-rich-canvas h1 { font-size: 2rem; margin: 20px 0 10px 0; font-weight: 700; }
-.editable-rich-canvas h2 { font-size: 1.5rem; margin: 18px 0 8px 0; font-weight: 600; }
-.editable-rich-canvas ul { padding-left: 24px; margin: 12px 0; }
-.editable-rich-canvas hr { border: none; border-top: 2px dashed var(--border); margin: 24px 0; }
+/* Element Structural Modifications Text Styling Node Formats */
+.editable-rich-canvas h1 { font-size: 1.6rem; line-height: 56px; margin: 28px 0 14px 0; color: var(--accent); font-weight: bold; text-decoration: underline; }
+.editable-rich-canvas h2 { font-size: 1.25rem; line-height: 28px; margin: 28px 0 0 0; font-weight: bold; }
+.editable-rich-canvas ul { padding-left: 20px; margin: 14px 0; }
+.editable-rich-canvas hr { border: none; border-top: 2px dashed var(--border); margin: 28px 0; }
 
 .wiki-anchor-link {
     color: var(--accent);
-    text-decoration: underline;
-    font-weight: 600;
+    background: var(--bg-card);
+    border: 1px dashed var(--border);
+    padding: 0 4px;
     cursor: pointer;
 }
 
 .inline-embedded-media-box {
     position: relative;
     margin: 20px 0;
-    border-radius: 8px;
-    overflow: hidden;
-    border: 1px solid var(--border);
+    border: 2px solid var(--border);
+    background: var(--bg-card);
     max-width: 100%;
 }
 .inline-embedded-media-box img { width: 100%; display: block; }
-.inline-embedded-media-box audio { width: 100%; padding: 10px; background: var(--bg-card); display: block; }
+.inline-embedded-media-box audio { width: 100%; padding: 8px; display: block; }
 .media-purge-btn {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    background: rgba(0,0,0,0.75);
-    border: none;
-    color: white;
-    border-radius: 50%;
-    width: 28px;
-    height: 28px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    top: 8px; right: 8px;
+    background: var(--danger); border: none; color: white;
+    width: 24px; height: 24px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
 }
 
-/* Floating Modular Popup Windows UI Elements */
+/* Floating Retro Prompt Windows UI Modals elements */
 .floating-popup-menu {
     position: absolute;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    z-index: 1000;
-    display: none;
-    max-height: 240px;
-    overflow-y: auto;
-    width: 260px;
-    padding: 6px;
+    background: var(--bg-sidebar);
+    border: 2px solid var(--border);
+    box-shadow: 6px 6px 0px rgba(0,0,0,0.4);
+    z-index: 1000; display: none; max-height: 220px; overflow-y: auto; width: 240px; padding: 4px;
 }
 
 .popup-menu-item {
-    padding: 8px 12px;
-    font-size: 0.9rem;
-    border-radius: 6px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    padding: 8px; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 8px;
 }
-.popup-menu-item:hover, .popup-menu-item.selected {
-    background: var(--accent);
-    color: var(--bg-sidebar);
-}
+.popup-menu-item:hover { background: var(--bg-card); color: var(--accent); }
 
-/* Draggable Kanban Framework Module System Layout */
+/* Notepad Margin Pin-boards (Sticky tasks tracker layout) */
 .kanban-dashboard-wrapper {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 24px;
+    background: var(--bg-sidebar);
+    border: 2px dashed var(--border);
+    padding: 20px;
 }
 
 .kanban-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
 }
 
 .add-task-btn {
-    background: transparent;
-    border: 1px solid var(--accent);
-    color: var(--accent);
-    padding: 5px 12px;
-    border-radius: 6px;
-    font-size: 0.82rem;
-    cursor: pointer;
-    font-weight: 600;
+    background: transparent; border: 1px solid var(--text-muted); color: var(--text-main);
+    padding: 4px 10px; font-size: 0.75rem; cursor: pointer;
 }
-.add-task-btn:hover { background: var(--bg-main); }
+.add-task-btn:hover { border-color: var(--accent); color: var(--accent); }
 
-.kanban-board-scrollbox {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
+.kanban-board-scrollbox { display: flex; flex-direction: column; gap: 20px; }
+.kanban-column { background: var(--bg-main); border: 1px solid var(--border); padding: 12px; }
+.col-title-bar { font-size: 0.75rem; font-weight: bold; color: var(--text-muted); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
 
-.kanban-column {
-    background: var(--bg-main);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 14px;
-}
+.indicator { width: 6px; height: 6px; display: inline-block; }
+.todo-ind { background: var(--text-muted); }
+.prog-ind { background: var(--accent); }
+.done-ind { background: var(--success); }
 
-.col-title-bar {
-    font-size: 0.8rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--text-muted);
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.indicator { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-.todo-ind { background: #ff9f0a; }
-.prog-ind { background: #0a84ff; }
-.done-ind { background: #30d158; }
-
-.cards-bin {
-    min-height: 80px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
+.cards-bin { min-height: 60px; display: flex; flex-direction: column; gap: 6px; }
 
 .kanban-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    padding: 12px;
-    border-radius: 8px;
-    cursor: grab;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    font-size: 0.9rem;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    background: var(--bg-card); border-left: 3px solid var(--border); padding: 8px;
+    cursor: grab; display: flex; justify-content: space-between; font-size: 0.85rem;
 }
 .kanban-card:active { cursor: grabbing; }
-.card-purge-icon { background: none; border: none; color: var(--text-muted); cursor: pointer; margin-left: 8px; }
+.card-purge-icon { background: none; border: none; color: var(--text-muted); cursor: pointer; }
 .card-purge-icon:hover { color: var(--danger); }
 
-/* Global Command Palette Overlay Modals Window Layer UI */
+/* Global Prompt Overlay Windows Elements */
 .modal-overlay {
-    position: fixed;
-    top: 0; left: 0; width: 100vw; height: 100vh;
-    background: rgba(0,0,0,0.5);
-    backdrop-filter: blur(4px);
-    z-index: 5000;
-    display: none;
-    justify-content: center;
-    padding-top: 12vh;
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.7); z-index: 5000; display: none; justify-content: center; padding-top: 15vh;
 }
 
 .palette-box {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    width: 600px;
-    max-width: 90%;
-    border-radius: 12px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-    overflow: hidden;
-    height: fit-content;
+    background: var(--bg-sidebar); border: 2px solid var(--border); width: 550px; max-width: 90%; box-shadow: 10px 10px 0px rgba(0,0,0,0.5); overflow: hidden;
 }
 
-.palette-search-wrapper {
-    display: flex;
-    align-items: center;
-    padding: 16px;
-    border-bottom: 1px solid var(--border);
-    gap: 12px;
-}
-.palette-search-wrapper i { color: var(--accent); font-size: 1.2rem; }
-.palette-search-wrapper input {
-    background: transparent; border: none; outline: none;
-    color: var(--text-main); width: 100%; font-size: 1.1rem;
-}
+.palette-search-wrapper { display: flex; align-items: center; padding: 14px; border-bottom: 2px solid var(--border); gap: 12px; }
+.palette-search-wrapper i { color: var(--accent); }
+.palette-search-wrapper input { background: transparent; border: none; outline: none; color: var(--text-main); width: 100%; font-size: 1rem; font-family: inherit; }
 
-.palette-results-list { max-height: 300px; overflow-y: auto; padding: 8px; }
-.palette-row-item {
-    padding: 10px 14px; border-radius: 8px; cursor: pointer;
-    display: flex; flex-direction: column; gap: 2px;
-}
-.palette-row-item:hover, .palette-row-item.focused { background: var(--bg-main); }
-.palette-row-item .title-row { font-weight: 600; font-size: 0.95rem; color: var(--accent); }
-.palette-row-item .preview-row { font-size: 0.82rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.palette-results-list { max-height: 260px; overflow-y: auto; padding: 6px; }
+.palette-row-item { padding: 8px; cursor: pointer; display: flex; flex-direction: column; }
+.palette-row-item:hover { background: var(--bg-card); }
+.palette-row-item .title-row { font-weight: bold; color: var(--accent); font-size: 0.9rem; }
+.palette-row-item .preview-row { font-size: 0.78rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
 
-/* Control Dashboard Panel Layout Elements */
-.settings-container-box { max-width: 800px; margin: 0 auto; padding: 60px 24px; }
-.settings-container-box h2 { font-size: 2rem; margin-bottom: 8px; }
-.muted-text { color: var(--text-muted); font-size: 0.92rem; }
-.view-divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
-.settings-container-box h3 { margin: 24px 0 16px 0; font-size: 1.25rem; }
+/* Config Panel Formatting Boxes Layout */
+.settings-container-box { max-width: 750px; margin: 0 auto; padding: 40px 12px; }
+.settings-container-box h2 { font-size: 1.6rem; margin-bottom: 6px; color: var(--accent); }
+.muted-text { color: var(--text-muted); font-size: 0.85rem; line-height: 1.4; }
+.view-divider { border: none; border-top: 2px solid var(--border); margin: 20px 0; }
+.settings-container-box h3 { margin: 24px 0 12px 0; font-size: 1.1rem; text-transform: uppercase; }
 
-.theme-selection-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.theme-option-card {
-    background: var(--bg-card); border: 2px solid var(--border);
-    padding: 16px; border-radius: 10px; cursor: pointer; transition: border-color 0.2s;
-}
-.theme-option-card.active { border-color: var(--accent); }
-.theme-option-card h4 { margin-bottom: 6px; font-size: 0.95rem; }
-.theme-option-card p { font-size: 0.8rem; color: var(--text-muted); line-height: 1.4; }
+.theme-selection-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.theme-option-card { background: var(--bg-sidebar); border: 1px solid var(--border); padding: 14px; cursor: pointer; }
+.theme-option-card.active { border: 2px dashed var(--accent); }
+.theme-option-card h4 { margin-bottom: 4px; font-size: 0.85rem; color: var(--accent); }
+.theme-option-card p { font-size: 0.75rem; color: var(--text-muted); line-height: 1.4; }
 
-.custom-theme-forge-panel { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-top: 32px; }
-.color-forge-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
-.forge-item { display: flex; justify-content: space-between; align-items: center; font-size: 0.88rem; }
-.forge-item input { border: none; background: transparent; cursor: pointer; width: 32px; height: 32px; }
+.custom-theme-forge-panel { background: var(--bg-sidebar); border: 1px solid var(--border); padding: 20px; margin-top: 24px; }
+.color-forge-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
+.forge-item { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; }
+.forge-item input { border: 1px solid var(--border); background: transparent; cursor: pointer; width: 28px; height: 28px; }
 
-.danger-zone-container { border: 1px solid var(--danger); border-radius: 12px; padding: 24px; margin-top: 48px; background: rgba(243, 139, 168, 0.03); }
-.danger-row { display: flex; justify-content: space-between; align-items: center; gap: 24px; margin-top: 12px;}
-.danger-title { font-weight: 700; font-size: 0.95rem; color: var(--danger); margin-bottom: 4px; }
+.danger-zone-container { border: 1px dashed var(--danger); padding: 20px; margin-top: 40px; }
+.danger-row { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-top: 10px;}
+.danger-title { font-weight: bold; font-size: 0.88rem; color: var(--danger); margin-bottom: 4px; }
 
-/* Global System Utilities Structural Media Elements hidden selectors mechanics */
 #hidden-cover-uploader, #hidden-inline-media-picker { display: none; }
