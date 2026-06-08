@@ -3,944 +3,179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZenithNote | Ultimate Workspace</title>
+    <title>NexusOS | Next-Gen Unified Workspace</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --bg-main: #1e1e2e;
-            --bg-sidebar: #11111b;
-            --bg-card: #252538;
-            --text-main: #cdd6f4;
-            --text-muted: #7f849c;
-            --accent: #cba6f7;
-            --border: #313244;
-        }
-
-        [data-theme="light"] {
-            --bg-main: #f5f5f7;
-            --bg-sidebar: #e4e4e7;
-            --bg-card: #ffffff;
-            --text-main: #1c1c1e;
-            --text-muted: #71717a;
-            --accent: #007aff;
-            --border: #e4e4e7;
-        }
-
-        [data-theme="cyberpunk"] {
-            --bg-main: #001219;
-            --bg-sidebar: #000814;
-            --bg-card: #001d3d;
-            --text-main: #00f5d4;
-            --text-muted: #9b5de5;
-            --accent: #fee440;
-            --border: #00f5d4;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
-
-        body {
-            display: flex;
-            height: 100vh;
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            overflow: hidden;
-            transition: background 0.3s, color 0.3s;
-        }
-
-        /* Sidebar Styling */
-        .sidebar {
-            width: 260px;
-            background-color: var(--bg-sidebar);
-            border-right: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            padding: 20px 15px;
-            justify-content: space-between;
-        }
-
-        .brand {
-            font-size: 1.2rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--accent);
-            margin-bottom: 30px;
-        }
-
-        .menu-section {
-            margin-bottom: 25px;
-        }
-
-        .section-title {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-muted);
-            margin-bottom: 10px;
-            padding-left: 10px;
-        }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            text-decoration: none;
-            color: var(--text-main);
-            margin-bottom: 5px;
-            transition: background 0.2s;
-        }
-
-        .nav-item:hover, .nav-item.active {
-            background-color: var(--bg-card);
-            color: var(--accent);
-        }
-
-        .nav-link {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .delete-note-btn {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            cursor: pointer;
-            opacity: 0;
-            transition: opacity 0.2s;
-        }
-
-        .nav-item:hover .delete-note-btn {
-            opacity: 1;
-        }
-
-        .delete-note-btn:hover {
-            color: #ff453a;
-        }
-
-        .btn-add {
-            background: transparent;
-            border: 1px dashed var(--accent);
-            color: var(--accent);
-            padding: 8px;
-            border-radius: 6px;
-            cursor: pointer;
-            width: 100%;
-            text-align: left;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.9rem;
-        }
-
-        .btn-add:hover {
-            background: var(--bg-card);
-        }
-
-        /* Main Content Workspace */
-        .main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-            position: relative;
-        }
-
-        /* Cover Image Feature */
-        .cover-container {
-            height: 220px;
-            position: relative;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            background-size: cover;
-            background-position: center;
-        }
-
-        .cover-actions {
-            position: absolute;
-            bottom: 15px;
-            right: 20px;
-            display: flex;
-            gap: 10px;
-        }
-
-        .cover-btn {
-            background: rgba(0,0,0,0.6);
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            backdrop-filter: blur(5px);
-        }
-
-        .cover-btn:hover {
-            background: rgba(0,0,0,0.8);
-        }
-
-        /* Workspace Core */
-        .workspace {
-            padding: 40px 60px;
-            max-width: 900px;
-            width: 100%;
-            margin: 0 auto;
-        }
-
-        .editable-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            border: none;
-            outline: none;
-            background: transparent;
-            color: var(--text-main);
-            width: 100%;
-            margin-bottom: 20px;
-        }
-
-        .meta-bar {
-            display: flex;
-            gap: 15px;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            margin-bottom: 30px;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 15px;
-        }
-
-        /* Dashboard Split Layout */
-        .grid-layout {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 30px;
-        }
-
-        /* Note Editor */
-        .editor-container {
-            min-height: 300px;
-            font-size: 1.1rem;
-            line-height: 1.6;
-            outline: none;
-            color: var(--text-main);
-        }
-
-        .editor-container[placeholder]:empty:before {
-            content: attr(placeholder);
-            color: var(--text-muted);
-        }
-
-        /* Universal Image Blocks */
-        .inserted-image-container {
-            position: relative;
-            margin: 15px 0;
-            border-radius: 8px;
-            overflow: hidden;
-            max-width: 100%;
-        }
-
-        .inserted-image-container img {
-            width: 100%;
-            display: block;
-        }
-
-        .remove-img-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(0,0,0,0.7);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 25px;
-            height: 25px;
-            cursor: pointer;
-        }
-
-        /* Todo List Component */
-        .todo-panel {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 20px;
-            height: fit-content;
-        }
-
-        .todo-title {
-            font-size: 1.1rem;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .todo-input-group {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 15px;
-        }
-
-        .todo-input {
-            flex: 1;
-            background: var(--bg-main);
-            border: 1px solid var(--border);
-            padding: 8px 12px;
-            border-radius: 6px;
-            color: var(--text-main);
-            outline: none;
-        }
-
-        .btn-todo-add {
-            background: var(--accent);
-            color: var(--bg-sidebar);
-            border: none;
-            padding: 8px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .todo-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .todo-item input[type="checkbox"] {
-            accent-color: var(--accent);
-            cursor: pointer;
-        }
-
-        .todo-item.completed span {
-            text-decoration: line-through;
-            color: var(--text-muted);
-        }
-
-        .todo-item span {
-            flex: 1;
-            font-size: 0.95rem;
-        }
-
-        .todo-delete {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            cursor: pointer;
-        }
-
-        .todo-delete:hover {
-            color: #ff453a;
-        }
-
-        /* Settings Modals & Tabs Views */
-        .view-panel {
-            display: none;
-            padding: 40px 60px;
-            max-width: 800px;
-            width: 100%;
-            margin: 0 auto;
-        }
-
-        .view-panel.active-view {
-            display: block;
-        }
-
-        .setting-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .theme-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .theme-card {
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            padding: 15px;
-            cursor: pointer;
-            text-align: center;
-            background: var(--bg-card);
-        }
-
-        .theme-card.active-theme {
-            border-color: var(--accent);
-        }
-
-        .custom-theme-creator {
-            margin-top: 30px;
-            background: var(--bg-card);
-            padding: 20px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-        }
-
-        .color-picker-group {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .picker-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .picker-item input {
-            cursor: pointer;
-        }
-
-        .standard-btn {
-            background: var(--accent);
-            color: var(--bg-sidebar);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            margin-top: 15px;
-        }
-
-        /* Hidden Utility Elements */
-        #cover-upload, #image-embed-upload {
-            display: none;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="sidebar">
-        <div>
-            <div class="brand">
-                <i class="fa-solid to fa-brain"></i> ZenithNote
+    <div id="command-palette" class="modal-overlay">
+        <div class="palette-box">
+            <div class="palette-search-wrapper">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="palette-search-input" placeholder="Search titles and content, or type command... (Esc to exit)">
             </div>
-            
-            <div class="menu-section">
-                <div class="section-title">Workspaces</div>
-                <div class="nav-item active" onclick="switchView('editor')">
-                    <div class="nav-link"><i class="fa-solid fa-file-lines"></i> Notes Editor</div>
-                </div>
-                <div class="nav-item" onclick="switchView('settings')">
-                    <div class="nav-link"><i class="fa-solid fa-gear"></i> Settings & Themes</div>
-                </div>
-            </div>
-
-            <div class="menu-section">
-                <div class="section-title" style="display: flex; justify-content: space-between; align-items: center;">
-                    <span>Documents</span>
-                    <button class="delete-note-btn" style="opacity:1" onclick="createNewNote()" title="Create New Note"><i class="fa-solid fa-plus"></i></button>
-                </div>
-                <div id="notes-list-container">
-                    </div>
-            </div>
-        </div>
-
-        <div>
-            <button class="btn-add" onclick="downloadBackup()">
-                <i class="fa-solid fa-download"></i> Download Notebook (.json)
-            </button>
+            <div id="palette-results" class="palette-results-list"></div>
         </div>
     </div>
 
-    <div class="main-content">
+    <div class="app-container">
         
-        <div id="view-editor" class="view-panel active-view" style="padding:0; max-width:100%;">
-            <div class="cover-container" id="note-cover">
-                <div class="cover-actions">
-                    <button class="cover-btn" onclick="document.getElementById('cover-upload').click()"><i class="fa-solid fa-image"></i> Change Cover</button>
-                    <button class="cover-btn" onclick="removeCover()"><i class="fa-solid fa-trash"></i> Remove</button>
-                    <input type="file" id="cover-upload" accept="image/*" onchange="uploadCover(event)">
-                </div>
-            </div>
-
-            <div class="workspace">
-                <input type="text" class="editable-title" id="note-title" placeholder="Untitled Document" oninput="updateNoteTitle(this.value)">
-                
-                <div class="meta-bar">
-                    <div><i class="fa-solid fa-calendar"></i> <span id="note-date">Today</span></div>
-                    <div style="cursor: pointer;" onclick="document.getElementById('image-embed-upload').click()">
-                        <i class="fa-solid fa-circle-plus"></i> Embed Image Container
-                    </div>
-                    <input type="file" id="image-embed-upload" accept="image/*" onchange="embedImageInline(event)">
+        <aside class="sidebar">
+            <div class="sidebar-upper">
+                <div class="brand-header">
+                    <i class="fa-solid fa-circle-nodes"></i>
+                    <span>NexusOS Workspace</span>
                 </div>
 
-                <div class="grid-layout">
-                    <div>
-                        <div class="editor-container" id="note-editor" contenteditable="true" placeholder="Start typing your master notes here... Use the options above to inject rich local graphic containers." oninput="saveCurrentNoteState()"></div>
+                <div class="nav-section">
+                    <div class="section-tag">Navigation</div>
+                    <div class="nav-button active" data-target="workspace" onclick="changeView('workspace')">
+                        <i class="fa-solid fa-laptop-code"></i> Production Studio
                     </div>
+                    <div class="nav-button" data-target="settings" onclick="changeView('settings')">
+                        <i class="fa-solid fa-sliders"></i> Control Console
+                    </div>
+                </div>
 
-                    <div class="todo-panel">
-                        <div class="todo-title"><i class="fa-solid fa-list-check" style="color:var(--accent)"></i> Workspace Actions</div>
-                        <div class="todo-input-group">
-                            <input type="text" id="todo-new-item" class="todo-input" placeholder="Quick action item...">
-                            <button class="btn-todo-add" onclick="addTodoItem()">Add</button>
+                <div class="nav-section">
+                    <div class="section-tag" style="display: flex; justify-content: space-between; align-items: center;">
+                        <span>Documents Engine</span>
+                        <button class="add-doc-icon-btn" onclick="createNewDocument()" title="Create Blank Note"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                    <div id="sidebar-documents-tree" class="docs-tree-container">
                         </div>
-                        <div id="todo-list-container">
-                            </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="view-settings" class="view-panel">
-            <h2>System Control & Workspace Engine</h2>
-            <p style="color: var(--text-muted); margin-bottom: 25px;">Fine-tune your customized cross-platform workspace profiles, visual setups, and backup pipelines.</p>
-
-            <h3>Select Visual Array</h3>
-            <div class="theme-grid">
-                <div class="theme-card" id="theme-card-dark" onclick="setGlobalTheme('dark')">
-                    <div style="font-weight:bold; margin-bottom:5px;">Catppuccin Dark</div>
-                    <div style="font-size:0.8rem; color:var(--text-muted);">Default Aesthetic</div>
-                </div>
-                <div class="theme-card" id="theme-card-light" onclick="setGlobalTheme('light')">
-                    <div style="font-weight:bold; margin-bottom:5px;">Apple Light</div>
-                    <div style="font-size:0.8rem; color:var(--text-muted);">High Contrast Clean</div>
-                </div>
-                <div class="theme-card" id="theme-card-cyberpunk" onclick="setGlobalTheme('cyberpunk')">
-                    <div style="font-weight:bold; margin-bottom:5px;">Cyber Terminal</div>
-                    <div style="font-size:0.8rem; color:var(--text-muted);">Neon Matrix</div>
                 </div>
             </div>
 
-            <div class="custom-theme-creator">
-                <h4><i class="fa-solid fa-palette"></i> Real-time System Custom Theme Forge</h4>
-                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:15px;">Modify application variables instantly below to map custom user profiles.</p>
+            <div class="sidebar-lower">
+                <div class="metrics-pill">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span id="global-word-counter">Words: 0</span>
+                </div>
+                <button class="action-btn download-btn" onclick="exportMasterNotebook()">
+                    <i class="fa-solid fa-file-export"></i> Export Vault Bundle (.json)
+                </button>
+            </div>
+        </aside>
+
+        <main class="main-viewport">
+            
+            <div id="view-workspace" class="view-panel active">
                 
-                <div class="color-picker-group">
-                    <div class="picker-item">
-                        <span>Background Main</span>
-                        <input type="color" id="cp-bg-main" value="#1e1e2e" onchange="compileCustomTheme()">
-                    </div>
-                    <div class="picker-item">
-                        <span>Sidebar Base</span>
-                        <input type="color" id="cp-bg-side" value="#11111b" onchange="compileCustomTheme()">
-                    </div>
-                    <div class="picker-item">
-                        <span>Card Surface</span>
-                        <input type="color" id="cp-bg-card" value="#252538" onchange="compileCustomTheme()">
-                    </div>
-                    <div class="picker-item">
-                        <span>Primary Font Color</span>
-                        <input type="color" id="cp-text" value="#cdd6f4" onchange="compileCustomTheme()">
-                    </div>
-                    <div class="picker-item">
-                        <span>Accent Highlight</span>
-                        <input type="color" id="cp-accent" value="#cba6f7" onchange="compileCustomTheme()">
-                    </div>
-                    <div class="picker-item">
-                        <span>Structural Borders</span>
-                        <input type="color" id="cp-border" value="#313244" onchange="compileCustomTheme()">
+                <div class="cover-canvas" id="canvas-cover-banner">
+                    <div class="cover-overlay-controls">
+                        <button class="cov-ctl-btn" onclick="document.getElementById('hidden-cover-uploader').click()">
+                            <i class="fa-solid fa-camera"></i> Change Graphic
+                        </button>
+                        <button class="cov-ctl-btn text-danger" onclick="clearActiveBannerCover()">
+                            <i class="fa-solid fa-trash-can"></i> Flush Cover
+                        </button>
+                        <input type="file" id="hidden-cover-uploader" accept="image/*">
                     </div>
                 </div>
-                <button class="standard-btn" onclick="saveCustomThemeToCache()">Save Custom Profile Preset</button>
+
+                <div class="canvas-workspace">
+                    <input type="text" id="document-title-field" class="title-input-field" placeholder="Untitled Document Record">
+                    
+                    <div class="document-metadata-bar">
+                        <span><i class="fa-regular fa-calendar"></i> <span id="meta-date-stamp">-</span></span>
+                        <span>|</span>
+                        <span class="interactive-meta-action" onclick="document.getElementById('hidden-inline-media-picker').click()">
+                            <i class="fa-solid fa-paperclip"></i> Inject Inline Media Block
+                        </span>
+                        <input type="file" id="hidden-inline-media-picker" accept="image/*,audio/*">
+                    </div>
+
+                    <div class="studio-grid">
+                        
+                        <div class="editor-sandbox-wrapper">
+                            <div id="rich-editor-canvas" class="editable-rich-canvas" contenteditable="true" placeholder="Type '/' to open slash command module menu, or '[[ ' to bind structural document links..."></div>
+                            
+                            <div id="slash-command-menu" class="floating-popup-menu"></div>
+                            <div id="wiki-bi-link-menu" class="floating-popup-menu"></div>
+                        </div>
+
+                        <div class="kanban-dashboard-wrapper">
+                            <div class="kanban-header">
+                                <h3><i class="fa-solid fa-cubes-stacked"></i> Task Matrix Board</h3>
+                                <button class="add-task-btn" onclick="addNewKanbanCardPrompt()"><i class="fa-solid fa-plus"></i> Card</button>
+                            </div>
+
+                            <div class="kanban-board-scrollbox">
+                                <div class="kanban-column" data-status="todo" ondragover="allowCardDrop(event)" ondrop="executeCardDrop(event, 'todo')">
+                                    <div class="col-title-bar"><span class="indicator todo-ind"></span> Planned</div>
+                                    <div class="cards-bin" id="bin-todo"></div>
+                                </div>
+                                <div class="kanban-column" data-status="progress" ondragover="allowCardDrop(event)" ondrop="executeCardDrop(event, 'progress')">
+                                    <div class="col-title-bar"><span class="indicator prog-ind"></span> Processing</div>
+                                    <div class="cards-bin" id="bin-progress"></div>
+                                </div>
+                                <div class="kanban-column" data-status="done" ondragover="allowCardDrop(event)" ondrop="executeCardDrop(event, 'done')">
+                                    <div class="col-title-bar"><span class="indicator done-ind"></span> Verified</div>
+                                    <div class="cards-bin" id="bin-done"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
 
-            <div style="margin-top:40px;">
-                <h3>Local Storage Metrics</h3>
-                <div class="setting-row">
-                    <div>
-                        <div>Automated Local Backups</div>
-                        <div style="font-size:0.85rem; color:var(--text-muted);">State instances automatically sync variables back to host localStorage cycles.</div>
+            <div id="view-settings" class="view-panel">
+                <div class="settings-container-box">
+                    <h2>Global Environment Control System</h2>
+                    <p class="muted-text">Configure dynamic execution contexts, variables, security access parameters, and aesthetic layer schemes.</p>
+                    
+                    <hr class="view-divider">
+
+                    <h3>System Theme Presets Matrix</h3>
+                    <div class="theme-selection-grid">
+                        <div class="theme-option-card active" id="thm-card-dark" onclick="switchSystemThemeMode('dark')">
+                            <h4>Catppuccin Midnight</h4>
+                            <p>Low-light high productivity blueprint.</p>
+                        </div>
+                        <div class="theme-option-card" id="thm-card-light" onclick="switchSystemThemeMode('light')">
+                            <h4>Pro Cupertino Light</h4>
+                            <p>High-luminance crisp desktop architecture.</p>
+                        </div>
+                        <div class="theme-option-card" id="thm-card-matrix" onclick="switchSystemThemeMode('matrix')">
+                            <h4>Neon Terminal Cyber</h4>
+                            <p>High-contrast digital matrix layout.</p>
+                        </div>
                     </div>
-                    <span style="color:#34c759; font-weight:bold;"><i class="fa-solid fa-cloud-arrow-up"></i> Active State</span>
-                </div>
-                <div class="setting-row">
-                    <div>
-                        <div>Wipe Active Workspace Cache</div>
-                        <div style="font-size:0.85rem; color:var(--text-muted);">Permanently purge systemic runtime indexes and restore base conditions.</div>
+
+                    <div class="custom-theme-forge-panel">
+                        <h3><i class="fa-solid fa-wand-magic-sparkles"></i> Custom Vector Real-time Theme Forge</h3>
+                        <p class="muted-text">Inject arbitrary hex vectors inside runtime global styling references variables.</p>
+                        
+                        <div class="color-forge-grid">
+                            <div class="forge-item"><span>Canvas Base Background</span><input type="color" id="f-bg-main" value="#1e1e2e" onchange="runLiveForgeCompilation()"></div>
+                            <div class="forge-item"><span>Control Sidebar Base</span><input type="color" id="f-bg-side" value="#11111b" onchange="runLiveForgeCompilation()"></div>
+                            <div class="forge-item"><span>Card Structural Surfaces</span><input type="color" id="f-bg-card" value="#252538" onchange="runLiveForgeCompilation()"></div>
+                            <div class="forge-item"><span>Core Text Value Color</span><input type="color" id="f-text" value="#cdd6f4" onchange="runLiveForgeCompilation()"></div>
+                            <div class="forge-item"><span>Dynamic Accent Element</span><input type="color" id="f-accent" value="#cba6f7" onchange="runLiveForgeCompilation()"></div>
+                            <div class="forge-item"><span>Hardware Grid Border Line</span><input type="color" id="f-border" value="#313244" onchange="runLiveForgeCompilation()"></div>
+                        </div>
+                        <button class="action-btn download-btn" style="width: auto; margin-top: 20px;" onclick="commitForgeThemeToMemory()">Save Custom Custom Theme Profile</button>
                     </div>
-                    <button class="standard-btn" style="background:#ff453a; color:white; margin:0;" onclick="purgeApplicationMemory()">Purge Cache</button>
+
+                    <div class="danger-zone-container">
+                        <h3>Critical Memory Adjustments</h3>
+                        <div class="danger-row">
+                            <div>
+                                <div class="danger-title">Purge Entire Local Host Directory Caches</div>
+                                <div class="muted-text">Permanently deletes all notes, tasks, system configurations, and themes from browser localStorage. This action is irreversible.</div>
+                            </div>
+                            <button class="action-btn danger-btn" onclick="wipeLocalSystemMemoryCache()">Nuke Cache</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
 
+        </main>
     </div>
 
-    <script>
-        // Memory Architecture Configuration
-        let appState = {
-            notes: [],
-            activeNoteId: null,
-            themeSetting: 'dark',
-            customThemeColors: null
-        };
-
-        const defaultCover = "linear-gradient(135deg, #667eea 0%, #764ba2 100%)";
-
-        // Initialization Pipeline
-        window.addEventListener('DOMContentLoaded', () => {
-            loadStateFromLocalStorage();
-            applyActiveSystemTheme();
-            renderSidebarNotesList();
-            loadActiveNoteIntoWorkspace();
-
-            // Intercept enter-key events on todo input
-            document.getElementById('todo-new-item').addEventListener('keydown', (e) => {
-                if(e.key === 'Enter') addTodoItem();
-            });
-        });
-
-        function loadStateFromLocalStorage() {
-            const cache = localStorage.getItem('ZENITH_NOTEBOOK_DATA');
-            if (cache) {
-                try {
-                    appState = JSON.parse(cache);
-                } catch(e) {
-                    console.error("Cache parsing conflict. Resetting memory channels.", e);
-                }
-            }
-            
-            // Build default notes matrix arrays if fresh load
-            if (!appState.notes || appState.notes.length === 0) {
-                appState.notes = [{
-                    id: 'default-note-1',
-                    title: 'Welcome to ZenithNote 🚀',
-                    content: 'This is an all-in-one professional cross-functional document workspace application.<br><br><b>Key Feature Implementations Built-in:</b><br>• Real-time sandbox structural writing<br>• Embedded standalone visual media blocks<br>• Local browser system runtime persistence layer<br>• Custom configuration profile controls Engine Panel',
-                    cover: defaultCover,
-                    date: new Date().toLocaleDateString(),
-                    todos: [
-                        { id: 1, text: 'Explore the settings panel configurations', completed: false },
-                        { id: 2, text: 'Upload custom header covers', completed: true }
-                    ]
-                }];
-            }
-            if(!appState.activeNoteId) {
-                appState.activeNoteId = appState.notes[0].id;
-            }
-        }
-
-        function saveStateToLocalStorage() {
-            localStorage.setItem('ZENITH_NOTEBOOK_DATA', JSON.stringify(appState));
-        }
-
-        // Router Tab View Logic 
-        function switchView(viewTarget) {
-            document.querySelectorAll('.view-panel').forEach(view => view.classList.remove('active-view'));
-            document.querySelectorAll('.sidebar .nav-item').forEach(item => item.classList.remove('active'));
-            
-            document.getElementById(`view-${viewTarget}`).classList.add('active-view');
-            
-            // Re-highlight active structures
-            if(viewTarget === 'editor') {
-                document.querySelector('.sidebar .nav-item:nth-child(2)').classList.add('active');
-            } else if (viewTarget === 'settings') {
-                document.querySelector('.sidebar .nav-item:nth-child(3)').classList.add('active');
-            }
-        }
-
-        // Sidebar Generator
-        function renderSidebarNotesList() {
-            const container = document.getElementById('notes-list-container');
-            container.innerHTML = '';
-            
-            appState.notes.forEach(note => {
-                const isActive = note.id === appState.activeNoteId;
-                const wrapper = document.createElement('div');
-                wrapper.className = `nav-item ${isActive ? 'active' : ''}`;
-                wrapper.setAttribute('onclick', `selectActiveNote('${note.id}')`);
-                
-                wrapper.innerHTML = `
-                    <div class="nav-link">
-                        <i class="fa-regular fa-file"></i>
-                        <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 140px;">${note.title || 'Untitled'}</span>
-                    </div>
-                    <button class="delete-note-btn" onclick="deleteNoteInstance(event, '${note.id}')" title="Delete Note"><i class="fa-solid fa-trash"></i></button>
-                `;
-                container.appendChild(wrapper);
-            });
-        }
-
-        // Workspace Document Engine Core Loader
-        function loadActiveNoteIntoWorkspace() {
-            const note = appState.notes.find(n => n.id === appState.activeNoteId);
-            if (!note) return;
-
-            document.getElementById('note-title').value = note.title || '';
-            document.getElementById('note-editor').innerHTML = note.content || '';
-            document.getElementById('note-date').innerText = note.date || new Date().toLocaleDateString();
-            
-            // Paint Cover Style Structuring
-            const coverEl = document.getElementById('note-cover');
-            if(note.cover && note.cover.startsWith('data:image')) {
-                coverEl.style.backgroundImage = `url(${note.cover})`;
-            } else {
-                coverEl.style.backgroundImage = note.cover || defaultCover;
-            }
-
-            renderTodoItems();
-        }
-
-        function createNewNote() {
-            const newId = 'note-' + Date.now();
-            const newNote = {
-                id: newId,
-                title: 'New Workspace Entry',
-                content: '',
-                cover: defaultCover,
-                date: new Date().toLocaleDateString(),
-                todos: []
-            };
-            appState.notes.push(newNote);
-            appState.activeNoteId = newId;
-            saveStateToLocalStorage();
-            renderSidebarNotesList();
-            loadActiveNoteIntoWorkspace();
-            switchView('editor');
-        }
-
-        function selectActiveNote(id) {
-            appState.activeNoteId = id;
-            saveStateToLocalStorage();
-            renderSidebarNotesList();
-            loadActiveNoteIntoWorkspace();
-            switchView('editor');
-        }
-
-        function deleteNoteInstance(event, id) {
-            event.stopPropagation(); // Stop routing click back to selection loader
-            if(appState.notes.length <= 1) {
-                alert("Cannot delete the final standing active workspace profile context template.");
-                return;
-            }
-            
-            appState.notes = appState.notes.filter(n => n.id !== id);
-            if(appState.activeNoteId === id) {
-                appState.activeNoteId = appState.notes[0].id;
-            }
-            
-            saveStateToLocalStorage();
-            renderSidebarNotesList();
-            loadActiveNoteIntoWorkspace();
-        }
-
-        function updateNoteTitle(val) {
-            const note = appState.notes.find(n => n.id === appState.activeNoteId);
-            if(note) {
-                note.title = val;
-                saveStateToLocalStorage();
-                // Selective passive visual updating to protect frame rendering pipelines
-                renderSidebarNotesList();
-            }
-        }
-
-        function saveCurrentNoteState() {
-            const note = appState.notes.find(n => n.id === appState.activeNoteId);
-            if(note) {
-                note.content = document.getElementById('note-editor').innerHTML;
-                saveStateToLocalStorage();
-            }
-        }
-
-        // Graphics Media Upload Integration Subroutines
-        function uploadCover(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const dataUrl = e.target.result;
-                document.getElementById('note-cover').style.backgroundImage = `url(${dataUrl})`;
-                
-                const note = appState.notes.find(n => n.id === appState.activeNoteId);
-                if(note) {
-                    note.cover = dataUrl;
-                    saveStateToLocalStorage();
-                }
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function removeCover() {
-            document.getElementById('note-cover').style.backgroundImage = defaultCover;
-            const note = appState.notes.find(n => n.id === appState.activeNoteId);
-            if(note) {
-                note.cover = defaultCover;
-                saveStateToLocalStorage();
-            }
-        }
-
-        function embedImageInline(event) {
-            const file = event.target.files[0];
-            if(!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const imgContainer = document.createElement('div');
-                imgContainer.className = 'inserted-image-container';
-                imgContainer.contentEditable = 'false'; // Keep container interface immutable
-                
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                
-                const rmBtn = document.createElement('button');
-                rmBtn.className = 'remove-img-btn';
-                rmBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
-                rmBtn.onclick = function() { imgContainer.remove(); saveCurrentNoteState(); };
-                
-                imgContainer.appendChild(img);
-                imgContainer.appendChild(rmBtn);
-                
-                document.getElementById('note-editor').appendChild(imgContainer);
-                saveCurrentNoteState();
-            };
-            reader.readAsDataURL(file);
-        }
-
-        // Context Task Todo Engine Subroutines
-        function renderTodoItems() {
-            const container = document.getElementById('todo-list-container');
-            container.innerHTML = '';
-            const note = appState.notes.find(n => n.id === appState.activeNoteId);
-            if (!note || !note.todos) return;
-
-            note.todos.forEach(todo => {
-                const item = document.createElement('div');
-                item.className = `todo-item ${todo.completed ? 'completed' : ''}`;
-                item.innerHTML = `
-                    <input type="checkbox" ${todo.completed ? 'checked' : ''} onchange="toggleTodoComplete('${todo.id}')">
-                    <span>${todo.text}</span>
-                    <button class="todo-delete" onclick="deleteTodoItem('${todo.id}')"><i class="fa-solid fa-trash-can"></i></button>
-                `;
-                container.appendChild(item);
-            });
-        }
-
-        function addTodoItem() {
-            const input = document.getElementById('todo-new-item');
-            const text = input.value.trim();
-            if(!text) return;
-
-            const note = appState.notes.find(n => n.id === appState.activeNoteId);
-            if(note) {
-                if(!note.todos) note.todos = [];
-                note.todos.push({
-                    id: 'todo-' + Date.now(),
-                    text: text,
-                    completed: false
-                });
-                input.value = '';
-                saveStateToLocalStorage();
-                renderTodoItems();
-            }
-        }
-
-        function toggleTodoComplete(todoId) {
-            const note = appState.notes.find(n => n.id === appState.activeNoteId);
-            if(note && note.todos) {
-                const todo = note.todos.find(t => t.id === todoId);
-                if(todo) todo.completed = !todo.completed;
-                saveStateToLocalStorage();
-                renderTodoItems();
-            }
-        }
-
-        function deleteTodoItem(todoId) {
-            const note = appState.notes.find(n => n.id === appState.activeNoteId);
-            if(note && note.todos) {
-                note.todos = note.todos.filter(t => t.id !== todoId);
-                saveStateToLocalStorage();
-                renderTodoItems();
-            }
-        }
-
-        // Theme Customizer CSS Engine UI Logic
-        function setGlobalTheme(themeName) {
-            appState.themeSetting = themeName;
-            appState.customThemeColors = null; // Clear out custom array variables if explicitly selecting standard profile presets
-            saveStateToLocalStorage();
-            applyActiveSystemTheme();
-        }
-
-        function applyActiveSystemTheme() {
-            const documentTag = document.documentElement;
-            documentTag.removeAttribute('style'); // Purge custom layouts
-            
-            // Clear current theme cards active borders definitions 
-            document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('active-theme'));
-
-            if (appState.themeSetting === 'custom' && appState.customThemeColors) {
-                const colors = appState.customThemeColors;
-                documentTag.style.setProperty('--bg-main', colors.bgMain);
-                documentTag.style.setProperty('--bg-sidebar', colors.bgSide);
-                documentTag.style.setProperty('--bg-card', colors.bgCard);
-                documentTag.style.setProperty('--text-main', colors.text);
-                documentTag.style.setProperty('--accent', colors.accent);
-                documentTag.style.setProperty('--border', colors.border);
-            } else {
-                documentTag.setAttribute('data-theme', appState.themeSetting || 'dark');
-                const targetCard = document.getElementById(`theme-card-${appState.themeSetting}`);
-                if(targetCard) targetCard.classList.add('active-theme');
-            }
-        }
-
-        function compileCustomTheme() {
-            const colors = {
-                bgMain: document.getElementById('cp-bg-main').value,
-                bgSide: document.getElementById('cp-bg-side').value,
-                bgCard: document.getElementById('cp-bg-card').value,
-                text: document.getElementById('cp-text').value,
-                accent: document.getElementById('cp-accent').value,
-                border: document.getElementById('cp-border').value
-            };
-            
-            const documentTag = document.documentElement;
-            documentTag.style.setProperty('--bg-main', colors.bgMain);
-            documentTag.style.setProperty('--bg-sidebar', colors.bgSide);
-            documentTag.style.setProperty('--bg-card', colors.bgCard);
-            documentTag.style.setProperty('--text-main', colors.text);
-            documentTag.style.setProperty('--accent', colors.accent);
-            documentTag.style.setProperty('--border', colors.border);
-        }
-
-        function saveCustomThemeToCache() {
-            appState.themeSetting = 'custom';
-            appState.customThemeColors = {
-                bgMain: document.getElementById('cp-bg-main').value,
-                bgSide: document.getElementById('cp-bg-side').value,
-                bgCard: document.getElementById('cp-bg-card').value,
-                text: document.getElementById('cp-text').value,
-                accent: document.getElementById('cp-accent').value,
-                border: document.getElementById('cp-border').value
-            };
-            saveStateToLocalStorage();
-            applyActiveSystemTheme();
-            alert("Custom profile layout configuration compiled successfully!");
-        }
-
-        // Export Data Control Pipeline
-        function downloadBackup() {
-            const dataString = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appState, null, 2));
-            const downloadAnchor = document.createElement('a');
-            downloadAnchor.setAttribute("href", dataString);
-            downloadAnchor.setAttribute("download", `ZenithNotebook_Backup_${new Date().toISOString().slice(0,10)}.json`);
-            document.body.appendChild(downloadAnchor);
-            downloadAnchor.click();
-            downloadAnchor.remove();
-        }
-
-        function purgeApplicationMemory() {
-            if(confirm("Are you absolutely sure you want to completely wipe all records inside this browser instance? All unsaved updates will be deleted forever.")) {
-                localStorage.removeItem('ZENITH_NOTEBOOK_DATA');
-                window.location.reload();
-            }
-        }
-    </script>
+    <script src="app.js"></script>
 </body>
 </html>
